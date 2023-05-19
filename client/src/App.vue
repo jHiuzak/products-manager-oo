@@ -7,6 +7,8 @@
       blueButtonText="Add"
       redButtonText="Mass delete"
     />
+
+    <page-footer/>
   </div>
 <!-- <RouterView /> -->
 </template>
