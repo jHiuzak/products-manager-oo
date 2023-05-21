@@ -5,6 +5,7 @@
       blue-button-text="Save"
       red-button-text="Cancel"
       @blue-button-click="addProduct"
+      @red-button-click="cancel"
     />
   </header>
 
@@ -15,56 +16,99 @@
       action="#"
       class="col-12"
     >
-      <!-- <form-input
+      <form-input
         v-model="inputSku"
         label-text="SKU"
         input-name-and-id="sku"
-        input-html-type="number"
-      /> -->
-      <form-input
-        v-for="input in inputs"
-        :key="input.inputNameAndId"
-        v-model="input.model"
-        :label-text="input.labelText"
-        :input-name-and-id="input.inputNameAndId"
-        :input-html-type="input.inputHtmlType"
+        input-html-type="text"
       />
+      <form-input
+        v-model="inputName"
+        label-text="Name"
+        input-name-and-id="name"
+        input-html-type="text"
+      />
+      <form-input
+        v-model="inputPrice"
+        label-text="Price ($)"
+        input-name-and-id="price"
+        input-html-type="number"
+      />
+      <form-input
+        v-model="inputType"
+        label-text="Type Switcher"
+        is-select
+      >
+        <template #selectSlot>
+          <select
+            id=""
+            v-model="productType"
+            value=""
+            name=""
+            class="col-4 form-select"
+          >
+            <option value="BookAttribute">Book</option>
+          </select>
+        </template>
+      </form-input>
+      <!-- <book-attribute /> -->
+      <KeepAlive>
+        <component :is="productType"></component>
+      </KeepAlive>
+
+      <!-- <div class="dropdown">
+        <button
+          class="btn btn-outline-secondary dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <span v-if="productType == ''">Type Switcher</span>
+          <span v-else>Type Switcher</span>
+        </button>
+        <ul class="dropdown-menu">
+          <li
+            class="dropdown-item"
+            @click="switchType('BookAttribute')"
+          >
+            Book
+          </li>
+          <li class="dropdown-item">DVD</li>
+          <li class="dropdown-item">Furniture</li>
+        </ul>
+      </div> -->
     </form>
   </main>
 </template>
 
 <script>
-import { FormInput } from '../components/ProductAdd/';
+import { FormInput, BookAttribute } from '../components/ProductAdd/';
 
 export default {
   components: {
     FormInput,
+    BookAttribute,
   },
   data() {
     return {
       inputName: '',
       inputPrice: null,
       inputSku: '',
-      inputs: [
-        {
-          inputHtmlType: 'text',
-          inputNameAndId: 'sku',
-          labelText: 'SKU',
-          model: 'inputSku',
-        },
-        {
-          inputHtmlType: 'number',
-          inputNameAndId: 'price',
-          labelText: 'Price',
-          model: 'inputPrice',
-        },
-      ],
+      inputType: '',
+      productType: '',
     };
   },
+  computed: {},
   methods: {
     addProduct() {
-      console.log('It worked!');
+      console.log('Product added.');
     },
+    cancel() {
+      console.log('Canceled.');
+    },
+    // switchType(attributeComponent) {
+    //   this.productType = attributeComponent;
+    // },
   },
 };
 </script>
