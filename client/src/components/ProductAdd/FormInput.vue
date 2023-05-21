@@ -8,6 +8,7 @@
     </label>
     <div :class="inputWrapperClass">
       <input
+        v-if="!isSelect"
         :id="inputNameAndId"
         required="true"
         :type="inputHtmlType"
@@ -15,24 +16,29 @@
         :name="inputNameAndId"
         @input="$emit('update:modelValue', $event.target.value)"
       />
+      <slot name="selectSlot"></slot>
     </div>
   </div>
 </template>
 
 <script>
+// pattern="^\+?[0-9]*\.?[0-9]+$"
 export default {
   props: {
     inputHtmlType: {
-      required: true,
+      // required: true,
       type: String,
     },
     inputNameAndId: {
-      required: true,
+      // required: true,
       type: String,
     },
     labelText: {
       required: true,
       type: String,
+    },
+    isSelect: {
+      type: Boolean,
     },
   },
   emits: {
