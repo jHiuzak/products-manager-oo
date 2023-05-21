@@ -37,7 +37,7 @@
       <form-input
         v-model="inputType"
         label-text="Type Switcher"
-        is-select
+        not-typing-field
       >
         <template #selectSlot>
           <select
@@ -51,32 +51,10 @@
           </select>
         </template>
       </form-input>
-      <!-- <book-attribute /> -->
+
       <KeepAlive>
         <component :is="productType"></component>
       </KeepAlive>
-
-      <!-- <div class="dropdown">
-        <button
-          class="btn btn-outline-secondary dropdown-toggle"
-          type="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          <span v-if="productType == ''">Type Switcher</span>
-          <span v-else>Type Switcher</span>
-        </button>
-        <ul class="dropdown-menu">
-          <li
-            class="dropdown-item"
-            @click="switchType('BookAttribute')"
-          >
-            Book
-          </li>
-          <li class="dropdown-item">DVD</li>
-          <li class="dropdown-item">Furniture</li>
-        </ul>
-      </div> -->
     </form>
   </main>
 </template>

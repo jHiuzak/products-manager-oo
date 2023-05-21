@@ -8,7 +8,7 @@
     </label>
     <div :class="inputWrapperClass">
       <input
-        v-if="!isSelect"
+        v-if="!notTypingField"
         :id="inputNameAndId"
         required="true"
         :type="inputHtmlType"
@@ -37,7 +37,7 @@ export default {
       required: true,
       type: String,
     },
-    isSelect: {
+    notTypingField: {
       type: Boolean,
     },
   },
