@@ -8,7 +8,7 @@
   <p>Please, provide size.</p>
 </template>
 
-<script>
+<!-- <script>
 import { FormInput } from '.';
 
 export default {
@@ -21,4 +21,4 @@ export default {
     };
   },
 };
-</script>
+</script> -->

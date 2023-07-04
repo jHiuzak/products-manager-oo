@@ -1,22 +1,23 @@
 <template>
-  <div :class="labelWrapperClass">
+  <div :class="wrapperClass">
     <label
-      :for="inputNameAndId"
       :class="labelClass"
+      :for="nameAndId"
     >
-      {{ labelText }}
+      {{ label }}
     </label>
     <div :class="inputWrapperClass">
       <input
-        v-if="!notTypingField"
-        :id="inputNameAndId"
-        required="true"
-        :type="inputHtmlType"
+        v-if="!customInput"
+        :id="nameAndId"
+        required
         :class="inputClass"
-        :name="inputNameAndId"
+        :name="nameAndId"
+        :value="modelValue"
+        v-bind="$attrs"
         @input="$emit('update:modelValue', $event.target.value)"
       />
-      <slot name="selectSlot"></slot>
+      <slot name="customInput"></slot>
     </div>
   </div>
 </template>
@@ -25,19 +26,20 @@
 // pattern="^\+?[0-9]*\.?[0-9]+$"
 export default {
   props: {
-    inputHtmlType: {
-      // required: true,
-      type: String,
-    },
-    inputNameAndId: {
-      // required: true,
-      type: String,
-    },
-    labelText: {
+    nameAndId: {
       required: true,
       type: String,
     },
-    notTypingField: {
+    label: {
+      default: '',
+      required: true,
+      type: String,
+    },
+    modelValue: {
+      type: String,
+      default: '',
+    },
+    customInput: {
       type: Boolean,
     },
   },
@@ -49,8 +51,7 @@ export default {
       inputClass: 'form-control',
       inputWrapperClass: 'col-4',
       labelClass: 'col-2 col-form-label fw-bold',
-      labelWrapperClass: 'row mb-3',
-      // inputValue: '',
+      wrapperClass: 'row mb-3',
     };
   },
 };

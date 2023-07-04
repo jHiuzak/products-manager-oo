@@ -16,67 +16,96 @@
       action="#"
       class="col-12"
     >
-      <form-input
-        v-model="inputSku"
+      <form-input-style
+        label-for-attr="sku"
         label-text="SKU"
-        input-name-and-id="sku"
-        input-html-type="text"
-      />
-      <form-input
-        v-model="inputName"
-        label-text="Name"
-        input-name-and-id="name"
-        input-html-type="text"
-      />
-      <form-input
-        v-model="inputPrice"
-        label-text="Price ($)"
-        input-name-and-id="price"
-        input-html-type="number"
-      />
-      <form-input
-        v-model="inputType"
-        label-text="Type Switcher"
-        not-typing-field
       >
-        <template #selectSlot>
-          <select
-            id=""
-            v-model="productType"
-            value=""
-            name=""
-            class="col-4 form-select"
-          >
-            <option value="BookAttribute">Book</option>
-          </select>
-        </template>
-      </form-input>
+        <input
+          id="sku"
+          v-model="formData.sku"
+          class="form-control"
+          name="sku"
+        />
+        <p
+          v-for="error in v$.formData.sku.$errors"
+          :key="error.uid"
+          class="text-danger"
+          role="alert"
+        >
+          {{ error.$message }}
+        </p>
+      </form-input-style>
 
-      <KeepAlive>
-        <component :is="productType"></component>
-      </KeepAlive>
+      <form-input-style
+        label-for-attr="name"
+        label-text="Name"
+      >
+        <input
+          id="name"
+          v-model="formData.name"
+          class="form-control"
+          name="name"
+        />
+        <p
+          v-for="error in v$.formData.name.$errors"
+          :key="error.uid"
+          class="text-danger"
+          role="alert"
+        >
+          {{ error.$message }}
+        </p>
+      </form-input-style>
+
+      <form-input-style
+        label-for-attr="price"
+        label-text="Price"
+      >
+        <input
+          id="price"
+          v-model="formData.price"
+          class="form-control"
+          name="price"
+        />
+        <p
+          v-for="error in v$.formData.price.$errors"
+          :key="error.uid"
+          class="text-danger"
+          role="alert"
+        >
+          {{ error.$message }}
+        </p>
+      </form-input-style>
     </form>
   </main>
 </template>
 
 <script>
-import { FormInput, BookAttribute } from '../components/ProductAdd/';
+import { useVuelidate } from '@vuelidate/core';
+import { helpers, required, numeric } from '@vuelidate/validators';
+import { FormInputStyle } from '../components/ProductAdd';
+
+// const isTypeValid = (value, vueRef) => {
+//   vueRef.checkValidity();
+// };
 
 export default {
   components: {
-    FormInput,
-    BookAttribute,
+    FormInputStyle,
+  },
+  setup() {
+    return {
+      v$: useVuelidate(),
+    };
   },
   data() {
     return {
-      inputName: '',
-      inputPrice: null,
-      inputSku: '',
-      inputType: '',
-      productType: '',
+      formData: {
+        sku: '',
+        name: '',
+        price: null,
+      },
     };
   },
-  computed: {},
   methods: {
     addProduct() {
       console.log('Product added.');
@@ -84,9 +113,44 @@ export default {
     cancel() {
       console.log('Canceled.');
     },
-    // switchType(attributeComponent) {
-    //   this.productType = attributeComponent;
-    // },
+    invalidFunction() {
+      console.log('Invalid');
+    },
+  },
+  validationConfig() {
+    return {
+      $autoDirty: true,
+      $lazy: true,
+      $rewardEarly: true,
+    };
+  },
+  validations() {
+    return {
+      formData: {
+        sku: {
+          $autoDirty: true,
+          required,
+          // numeric: helpers.withMessage(
+          //   'Please provide the indicated data type.',
+          // ),
+        },
+        name: {
+          $autoDirty: true,
+          required,
+          // numeric: helpers.withMessage(
+          //   'Please provide the indicated data type.',
+          // ),
+        },
+        price: {
+          $autoDirty: true,
+          required,
+          numeric: helpers.withMessage(
+            'Please provide the indicated data type.',
+            numeric,
+          ),
+        },
+      },
+    };
   },
 };
 </script>
