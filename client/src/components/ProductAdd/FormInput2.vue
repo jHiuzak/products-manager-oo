@@ -2,31 +2,29 @@
   <div :class="wrapperClass">
     <label
       :class="labelClass"
-      :for="nameAndId"
+      :for="name"
     >
       {{ label }}
     </label>
     <div :class="inputWrapperClass">
       <input
         v-if="!customInput"
-        :id="nameAndId"
-        required
         :class="inputClass"
-        :name="nameAndId"
-        :value="modelValue"
+        :name="name"
         v-bind="$attrs"
         @input="$emit('update:modelValue', $event.target.value)"
       />
       <slot name="customInput"></slot>
+      <slot name="errorMessages"></slot>
     </div>
   </div>
 </template>
 
 <script>
-// pattern="^\+?[0-9]*\.?[0-9]+$"
 export default {
   props: {
-    nameAndId: {
+    name: {
+      default: '',
       required: true,
       type: String,
     },
@@ -35,17 +33,11 @@ export default {
       required: true,
       type: String,
     },
-    modelValue: {
-      type: String,
-      default: '',
-    },
     customInput: {
       type: Boolean,
     },
   },
-  emits: {
-    'update:modelValue': null,
-  },
+  emits: ['update:modelValue'],
   data() {
     return {
       inputClass: 'form-control',
