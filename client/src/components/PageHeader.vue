@@ -1,5 +1,5 @@
 <template>
-  <header class="col-12 d-flex align-items-center">
+  <header class="col-12 d-flex align-items-center pb-4">
     <div :class="[sidesClasses, 'justify-content-start']">
       <h1>{{ pageTitle }}</h1>
     </div>
